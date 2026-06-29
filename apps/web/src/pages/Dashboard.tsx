@@ -1,10 +1,7 @@
+import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip,
-  Radar, RadarChart, PolarGrid, PolarAngleAxis,
-} from 'recharts';
-import { Card, Stat, Progress, Badge } from '../components/ui';
+import { Card, Stat, Progress, Badge, Skeleton } from '../components/ui';
 import { getProfile, readList, getActiveDays } from '../lib/storage';
 import { computeStats } from '../lib/stats';
 import { ACHIEVEMENTS } from '../data/achievements';
@@ -14,6 +11,11 @@ import WeeklyQuests from '../components/WeeklyQuests';
 import DailyGoal from '../components/DailyGoal';
 
 type Metric = { date: string; weight?: number };
+
+// recharts se carga diferido: las gráficas entran después del primer render.
+const WeightChart = lazy(() => import('../components/DashboardCharts').then((m) => ({ default: m.WeightChart })));
+const StatsRadar = lazy(() => import('../components/DashboardCharts').then((m) => ({ default: m.StatsRadar })));
+const ChartFallback = () => <Skeleton className="h-[220px] w-full rounded-xl" />;
 
 export default function Dashboard() {
   const profile = getProfile();
@@ -166,20 +168,9 @@ export default function Dashboard() {
               <p className="text-sm text-stone-500">Registra tu peso en <b>Fitness</b> para ver tu evolución aquí.</p>
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={220}>
-              <AreaChart data={weightSeries}>
-                <defs>
-                  <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.55} />
-                    <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="date" tick={{ fontSize: 11 }} stroke="#a8a29e" />
-                <YAxis domain={['dataMin - 1', 'dataMax + 1']} tick={{ fontSize: 11 }} stroke="#a8a29e" />
-                <Tooltip />
-                <Area type="monotone" dataKey="weight" stroke="#d97706" strokeWidth={2.5} fill="url(#g)" />
-              </AreaChart>
-            </ResponsiveContainer>
+            <Suspense fallback={<ChartFallback />}>
+              <WeightChart data={weightSeries} />
+            </Suspense>
           )}
         </Card>
 
@@ -190,13 +181,9 @@ export default function Dashboard() {
               <p className="text-sm text-stone-500">Completa ejercicios y tus estadísticas crecerán.</p>
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={220}>
-              <RadarChart data={radar}>
-                <PolarGrid stroke="#a8a29e55" />
-                <PolarAngleAxis dataKey="stat" tick={{ fontSize: 10, fill: '#a8a29e' }} />
-                <Radar dataKey="level" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.4} />
-              </RadarChart>
-            </ResponsiveContainer>
+            <Suspense fallback={<ChartFallback />}>
+              <StatsRadar data={radar} />
+            </Suspense>
           )}
         </Card>
       </div>
