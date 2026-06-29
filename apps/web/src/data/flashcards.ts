@@ -1,0 +1,33 @@
+// Flashcards de vocabulario tech/profesional para entrevistas en inglés (camino a Vancouver 🍁).
+export type Flashcard = { id: string; term: string; es: string; example: string };
+
+export const FLASHCARDS: Flashcard[] = [
+  { id: 'fc-deadline', term: 'deadline', es: 'fecha límite', example: 'We need to ship this feature before the deadline on Friday.' },
+  { id: 'fc-deploy', term: 'to deploy', es: 'desplegar (subir a producción)', example: 'We deploy the app to production every Tuesday.' },
+  { id: 'fc-bug', term: 'bug', es: 'error en el código', example: 'I found a bug that crashes the app on login.' },
+  { id: 'fc-merge', term: 'to merge', es: 'fusionar (ramas en Git)', example: 'Can you review my pull request before I merge it?' },
+  { id: 'fc-pr', term: 'pull request', es: 'solicitud de cambios (PR)', example: 'I opened a pull request with the new endpoint.' },
+  { id: 'fc-scalable', term: 'scalable', es: 'escalable', example: 'We designed the system to be scalable to millions of users.' },
+  { id: 'fc-backend', term: 'backend', es: 'parte del servidor', example: 'I mostly work on the backend with Java and SQL.' },
+  { id: 'fc-query', term: 'query', es: 'consulta (a una base de datos)', example: 'This query is slow; we should add an index.' },
+  { id: 'fc-debug', term: 'to debug', es: 'depurar / encontrar errores', example: 'It took me an hour to debug the race condition.' },
+  { id: 'fc-stakeholder', term: 'stakeholder', es: 'parte interesada', example: "Let's confirm the requirements with the stakeholders." },
+  { id: 'fc-requirement', term: 'requirement', es: 'requisito', example: 'The main requirement is that it must work offline.' },
+  { id: 'fc-tradeoff', term: 'trade-off', es: 'compensación / concesión', example: 'There is a trade-off between speed and memory usage.' },
+  { id: 'fc-bottleneck', term: 'bottleneck', es: 'cuello de botella', example: 'The database was the bottleneck under heavy load.' },
+  { id: 'fc-latency', term: 'latency', es: 'latencia (tiempo de respuesta)', example: 'Caching reduced the latency from 200ms to 20ms.' },
+  { id: 'fc-throughput', term: 'throughput', es: 'rendimiento (volumen por segundo)', example: 'We measured the throughput at 1,000 requests per second.' },
+  { id: 'fc-ship', term: 'to ship', es: 'lanzar / entregar (un producto)', example: "We shipped the new dashboard last sprint." },
+  { id: 'fc-legacy', term: 'legacy code', es: 'código heredado / antiguo', example: 'Refactoring the legacy code took two weeks.' },
+  { id: 'fc-edgecase', term: 'edge case', es: 'caso límite / excepcional', example: 'We forgot to handle the edge case of an empty list.' },
+  { id: 'fc-refactor', term: 'to refactor', es: 'refactorizar (mejorar sin cambiar comportamiento)', example: 'I refactored the function to make it more readable.' },
+  { id: 'fc-onboarding', term: 'onboarding', es: 'incorporación (de un nuevo miembro)', example: 'The onboarding process took about one week.' },
+  { id: 'fc-standup', term: 'standup', es: 'reunión diaria breve', example: "I'll mention the blocker in tomorrow's standup." },
+  { id: 'fc-oncall', term: 'to be on call', es: 'estar de guardia', example: "I'm on call this week, so I handle production issues." },
+  { id: 'fc-workaround', term: 'workaround', es: 'solución temporal', example: 'As a workaround, we restart the service every night.' },
+  { id: 'fc-proficiency', term: 'proficiency', es: 'dominio / nivel (de un idioma o skill)', example: 'I have professional proficiency in English.' },
+  { id: 'fc-blocker', term: 'blocker', es: 'impedimento / bloqueante', example: 'The missing API key is a blocker for testing.' },
+  { id: 'fc-scope', term: 'scope', es: 'alcance (de un proyecto)', example: "That feature is out of scope for this release." },
+  { id: 'fc-estimate', term: 'to estimate', es: 'estimar (tiempo/esfuerzo)', example: 'I estimate this task will take two days.' },
+  { id: 'fc-rollback', term: 'to roll back', es: 'revertir (a una versión anterior)', example: 'The deploy broke production, so we rolled back.' },
+];

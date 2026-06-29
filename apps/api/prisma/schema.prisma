@@ -1,0 +1,792 @@
+// PROYECTO RENACER — Modelo de datos (PostgreSQL via Prisma)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────── NÚCLEO / USUARIO ───────────────────────────
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String?
+  oauthProvider String?
+  displayName   String
+  locale        String   @default("es")
+  theme         String   @default("dark")
+  createdAt     DateTime @default(now())
+
+  profile       Profile?
+  xpEvents      XpEvent[]
+  statSnapshots StatSnapshot[]
+  streaks       Streak[]
+  missions      Mission[]
+  achievements  UserAchievement[]
+  bodyMetrics   BodyMetric[]
+  photos        ProgressPhoto[]
+  workouts      Workout[]
+  englishProg   EnglishProgress[]
+  englishSubs   EnglishSubmission[]
+  studyPlans    StudyPlan[]
+  codeSubs      CodeSubmission[]
+  projects      Project[]
+  journal       JournalEntry[]
+  books         Book[]
+  transactions  Transaction[]
+  budgets       Budget[]
+  mentorReports MentorReport[]
+  aiInteractions AiInteraction[]
+
+  // ── RENACER AI (additive) ──
+  conversations   Conversation[]
+  memories        Memory[]
+  goals           Goal[]
+  habits          Habit[]
+  decisions       Decision[]
+  recommendations Recommendation[]
+  emotionLogs     EmotionLog[]
+  voiceSessions   VoiceSession[]
+  avatarConfig    AvatarConfig?
+  avatarStates    AvatarState[]
+  deviceAgents    DeviceAgent[]
+  automations     Automation[]
+  integrations    Integration[]
+}
+
+model Profile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  birthDate    DateTime?
+  heightCm     Float?
+  startWeight  Float?
+  targetWeight Float?
+  goals        Json?
+}
+
+// ─────────────────────────── RPG / GAMIFICACIÓN ───────────────────────────
+enum XpSource {
+  FITNESS
+  ENGLISH
+  CODE
+  JOURNAL
+  READING
+  TASK
+  HABIT
+  PROJECT
+  FINANCE
+}
+
+enum RpgStat {
+  STRENGTH
+  STAMINA
+  DISCIPLINE
+  INTELLIGENCE
+  KNOWLEDGE
+  CREATIVITY
+  CHARISMA
+  HEALTH
+  PROGRAMMING
+  ENGLISH
+}
+
+enum MissionScope {
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+enum MissionStatus {
+  ACTIVE
+  DONE
+  FAILED
+}
+
+model XpEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  source    XpSource
+  stat      RpgStat
+  amount    Int
+  refId     String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model StatSnapshot {
+  id      String  @id @default(cuid())
+  userId  String
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stat    RpgStat
+  totalXp Int     @default(0)
+  level   Int     @default(1)
+
+  @@unique([userId, stat])
+}
+
+model Streak {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type           String
+  current        Int      @default(0)
+  longest        Int      @default(0)
+  lastActiveDate DateTime?
+
+  @@unique([userId, type])
+}
+
+model Achievement {
+  id          String  @id @default(cuid())
+  code        String  @unique
+  title       String
+  description String
+  rank        String  @default("bronze")
+  icon        String?
+  users       UserAchievement[]
+}
+
+model UserAchievement {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  unlockedAt    DateTime @default(now())
+
+  @@unique([userId, achievementId])
+}
+
+model Mission {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scope     MissionScope
+  title     String
+  target    Int           @default(1)
+  progress  Int           @default(0)
+  xpReward  Int           @default(10)
+  status    MissionStatus @default(ACTIVE)
+  dueAt     DateTime?
+  createdAt DateTime      @default(now())
+}
+
+// ─────────────────────────── FITNESS ───────────────────────────
+enum DayType {
+  CHEST_BACK
+  LEG
+  SHOULDER_ARM
+  CARDIO_ABS
+  FULL_BODY
+  CARDIO
+  REVIEW
+}
+
+model BodyMetric {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date       DateTime
+  weight     Float?
+  waist      Float?
+  neck       Float?
+  chest      Float?
+  arms       Float?
+  legs       Float?
+  bodyFatPct Float?
+  sleepHours Float?
+  waterMl    Int?
+  calories   Int?
+
+  @@index([userId, date])
+}
+
+model ProgressPhoto {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date       DateTime
+  url        String
+  aiAnalysis Json?
+  tags       String[]
+}
+
+model Workout {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date        DateTime
+  dayType     DayType
+  durationMin Int      @default(0)
+  notes       String?
+  exercises   WorkoutExercise[]
+}
+
+model WorkoutExercise {
+  id        String  @id @default(cuid())
+  workoutId String
+  workout   Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  name      String
+  sets      Int
+  reps      Int
+  weight    Float?
+}
+
+// ─────────────────────────── INGLÉS ───────────────────────────
+model EnglishLevel {
+  id      String   @id @default(cuid())
+  code    String   @unique // A1..C2
+  order   Int
+  courses Course[]
+}
+
+model Course {
+  id      String   @id @default(cuid())
+  levelId String
+  level   EnglishLevel @relation(fields: [levelId], references: [id])
+  title   String
+  lessons Lesson[]
+}
+
+model Lesson {
+  id        String   @id @default(cuid())
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  title     String
+  area      String   // SPEAKING LISTENING READING WRITING GRAMMAR VOCAB PRONUNCIATION
+  content   Json?
+  exercises Exercise[]
+  progress  EnglishProgress[]
+}
+
+model Exercise {
+  id          String   @id @default(cuid())
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id])
+  type        String
+  prompt      String
+  payload     Json?
+  submissions EnglishSubmission[]
+}
+
+model EnglishProgress {
+  id       String @id @default(cuid())
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id])
+  status   String @default("not_started")
+  score    Int?
+
+  @@unique([userId, lessonId])
+}
+
+model EnglishSubmission {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exerciseId String?
+  exercise   Exercise? @relation(fields: [exerciseId], references: [id])
+  type       String
+  payload    Json     // texto o audioUrl
+  aiFeedback Json?
+  score      Int?
+  weakAreas  String[]
+  createdAt  DateTime @default(now())
+}
+
+model StudyPlan {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     Json
+  createdAt DateTime @default(now())
+}
+
+// ─────────────────────────── PROGRAMACIÓN ───────────────────────────
+model Language {
+  id       String  @id @default(cuid())
+  slug     String  @unique
+  name     String
+  modules  CodeModule[]
+}
+
+model Track {
+  id      String  @id @default(cuid())
+  slug    String  @unique
+  name    String  // Web, Backend, Ciberseguridad, ML, etc.
+  modules CodeModule[]
+}
+
+model CodeModule {
+  id         String   @id @default(cuid())
+  languageId String?
+  language   Language? @relation(fields: [languageId], references: [id])
+  trackId    String?
+  track      Track?    @relation(fields: [trackId], references: [id])
+  title      String
+  order      Int      @default(0)
+  lessons    CodeLesson[]
+}
+
+model CodeLesson {
+  id         String   @id @default(cuid())
+  moduleId   String
+  module     CodeModule @relation(fields: [moduleId], references: [id])
+  title      String
+  theory     String?
+  challenges CodeChallenge[]
+}
+
+model CodeChallenge {
+  id          String   @id @default(cuid())
+  lessonId    String
+  lesson      CodeLesson @relation(fields: [lessonId], references: [id])
+  title       String
+  prompt      String
+  starterCode String?
+  tests       Json?
+  difficulty  Int      @default(1)
+  submissions CodeSubmission[]
+}
+
+model CodeSubmission {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challengeId String?
+  challenge   CodeChallenge? @relation(fields: [challengeId], references: [id])
+  language    String
+  code        String
+  aiReview    Json?
+  score       Int?
+  xpAwarded   Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+// ─────────────────────────── PROYECTOS ───────────────────────────
+model Project {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title        String
+  type         String
+  difficulty   Int      @default(1)
+  status       String   @default("active")
+  grade        Int?
+  totalTimeMin Int      @default(0)
+  createdAt    DateTime @default(now())
+  tasks        ProjectTask[]
+  logs         ProjectLog[]
+}
+
+model ProjectTask {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title     String
+  done      Boolean @default(false)
+  order     Int     @default(0)
+}
+
+model ProjectLog {
+  id           String   @id @default(cuid())
+  projectId    String
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  date         DateTime @default(now())
+  note         String
+  minutesSpent Int      @default(0)
+}
+
+// ─────────────────────────── DIARIO ───────────────────────────
+model JournalEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime @default(now())
+  feeling   String?
+  didToday  String?  // cifrado en reposo
+  learned   String?
+  worries   String?
+  happy     String?
+  improve   String?
+  analysis  JournalAnalysis?
+}
+
+model JournalAnalysis {
+  id          String   @id @default(cuid())
+  entryId     String   @unique
+  entry       JournalEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  emotions    Json?
+  stress      Int?
+  anxiety     Int?
+  frustration Int?
+  motivation  Int?
+  aiResponse  String?
+  advice      String?
+  reflection  String?
+  createdAt   DateTime @default(now())
+}
+
+// ─────────────────────────── LECTURA ───────────────────────────
+model Book {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title      String
+  author     String?
+  totalPages Int?
+  sessions   ReadingSession[]
+  summary    BookSummary?
+}
+
+model ReadingSession {
+  id        String   @id @default(cuid())
+  bookId    String
+  book      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  date      DateTime @default(now())
+  pagesRead Int
+  minutes   Int      @default(0)
+}
+
+model BookSummary {
+  id              String  @id @default(cuid())
+  bookId          String  @unique
+  book            Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  aiSummary       String?
+  comprehensionQuiz Json?
+  score           Int?
+}
+
+// ─────────────────────────── FINANZAS ───────────────────────────
+enum TxType {
+  INCOME
+  EXPENSE
+  SAVING
+}
+
+model Transaction {
+  id       String   @id @default(cuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type     TxType
+  amount   Float
+  category String
+  date     DateTime @default(now())
+  note     String?
+}
+
+model Budget {
+  id           String @id @default(cuid())
+  userId       String
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category     String
+  monthlyLimit Float
+
+  @@unique([userId, category])
+}
+
+// ─────────────────────────── IA / MENTOR ───────────────────────────
+model MentorReport {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scope       MissionScope
+  content     String
+  generatedAt DateTime @default(now())
+}
+
+model AiInteraction {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module     String
+  prompt     String
+  response   String
+  tokensUsed Int      @default(0)
+  createdAt  DateTime @default(now())
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  RENACER AI — Core IA, Memoria, Voz, Avatar, Control de PC, Integraciones
+//  (todo es ADITIVO: ninguna tabla anterior se modifica)
+// ═══════════════════════════════════════════════════════════════════════════
+
+enum ConversationChannel {
+  TEXT
+  VOICE
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+enum MemoryKind {
+  GOAL
+  HABIT
+  FACT
+  PREFERENCE
+  EVENT
+  CONVERSATION
+}
+
+enum HabitCadence {
+  DAILY
+  WEEKLY
+}
+
+enum EmotionChannel {
+  JOURNAL
+  VOICE
+  CHAT
+}
+
+enum AgentActionStatus {
+  PENDING
+  CONFIRMED
+  EXECUTED
+  FAILED
+  REJECTED
+}
+
+// ── Core IA / Conversación ──
+model Conversation {
+  id        String              @id @default(cuid())
+  userId    String
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  channel   ConversationChannel @default(TEXT)
+  title     String?
+  startedAt DateTime            @default(now())
+  messages  Message[]
+  voice     VoiceSession[]
+
+  @@index([userId, startedAt])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           MessageRole
+  content        String
+  tokens         Int          @default(0)
+  meta           Json?
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+model Decision {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  intent       String
+  chosenAction String
+  confidence   Float    @default(0)
+  payload      Json?
+  createdAt    DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Recommendation {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  content   String
+  source    String?
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+
+  @@index([userId, status])
+}
+
+model EmotionLog {
+  id        String         @id @default(cuid())
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  source    EmotionChannel
+  emotions  Json
+  valence   Float          @default(0)
+  arousal   Float          @default(0)
+  createdAt DateTime       @default(now())
+
+  @@index([userId, createdAt])
+}
+
+// ── Memoria ──
+model Memory {
+  id         String     @id @default(cuid())
+  userId     String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind       MemoryKind
+  content    String
+  // En producción → pgvector. Para el cimiento usamos Float[] (similitud en app).
+  embedding  Float[]
+  importance Int        @default(1)
+  source     String?
+  lastUsedAt DateTime?
+  createdAt  DateTime   @default(now())
+
+  @@index([userId, kind])
+}
+
+model Goal {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  targetDate  DateTime?
+  status      String    @default("active")
+  progress    Int       @default(0)
+  createdAt   DateTime  @default(now())
+}
+
+model Habit {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  cadence   HabitCadence @default(DAILY)
+  active    Boolean      @default(true)
+  createdAt DateTime     @default(now())
+  logs      HabitLog[]
+}
+
+model HabitLog {
+  id      String   @id @default(cuid())
+  habitId String
+  habit   Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  date    DateTime @default(now())
+  done    Boolean  @default(true)
+
+  @@index([habitId, date])
+}
+
+// ── Voz ──
+model VoiceSession {
+  id             String            @id @default(cuid())
+  userId         String
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversationId String?
+  conversation   Conversation?     @relation(fields: [conversationId], references: [id])
+  deviceId       String?
+  startedAt      DateTime          @default(now())
+  endedAt        DateTime?
+  transcripts    VoiceTranscript[]
+}
+
+model VoiceTranscript {
+  id        String       @id @default(cuid())
+  sessionId String
+  session   VoiceSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  text      String
+  isFinal   Boolean      @default(false)
+  createdAt DateTime     @default(now())
+}
+
+model TtsCache {
+  id        String   @id @default(cuid())
+  hash      String   @unique
+  voice     String
+  audioUrl  String
+  visemes   Json?
+  createdAt DateTime @default(now())
+}
+
+// ── Avatar ──
+model AvatarConfig {
+  id      String  @id @default(cuid())
+  userId  String  @unique
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  modelId String  @default("default")
+  voice   String  @default("es-default")
+  palette Json?
+}
+
+model AvatarState {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emotion   String   @default("neutral")
+  intensity Float    @default(0.5)
+  updatedAt DateTime @updatedAt @default(now())
+
+  @@index([userId, updatedAt])
+}
+
+// ── Control de PC ──
+model DeviceAgent {
+  id         String       @id @default(cuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name       String
+  tokenHash  String
+  trusted    Boolean      @default(false)
+  lastSeenAt DateTime?
+  createdAt  DateTime     @default(now())
+  runs       AutomationRun[]
+}
+
+model PcAction {
+  id                   String  @id @default(cuid())
+  key                  String  @unique
+  label                String
+  category             String
+  requiresConfirmation Boolean @default(true)
+  allowlisted          Boolean @default(false)
+}
+
+model Automation {
+  id        String          @id @default(cuid())
+  userId    String
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trigger   Json
+  actionKey String
+  params    Json?
+  enabled   Boolean         @default(true)
+  createdAt DateTime        @default(now())
+  runs      AutomationRun[]
+}
+
+model AutomationRun {
+  id           String            @id @default(cuid())
+  automationId String?
+  automation   Automation?       @relation(fields: [automationId], references: [id])
+  deviceId     String?
+  device       DeviceAgent?      @relation(fields: [deviceId], references: [id])
+  status       AgentActionStatus @default(PENDING)
+  output       String?
+  startedAt    DateTime          @default(now())
+}
+
+// ── Integraciones ──
+model Integration {
+  id          String             @id @default(cuid())
+  userId      String
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider    String
+  credentials Json?
+  scopes      String[]
+  status      String             @default("disconnected")
+  createdAt   DateTime           @default(now())
+  events      IntegrationEvent[]
+}
+
+model IntegrationEvent {
+  id            String      @id @default(cuid())
+  integrationId String
+  integration   Integration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  type          String
+  payload       Json?
+  createdAt     DateTime    @default(now())
+}

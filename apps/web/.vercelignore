@@ -1,0 +1,6 @@
+# El sitio web NO necesita el proyecto Android nativo ni los binarios de la app.
+android
+ios
+*.apk
+*.aab
+*.keystore

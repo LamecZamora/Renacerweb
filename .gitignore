@@ -1,0 +1,29 @@
+# Dependencias y builds
+node_modules
+**/node_modules
+dist
+**/dist
+*.local
+
+# Secretos y datos de runtime (NUNCA al repo)
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+**/.pgdata/
+
+# Editor / SO
+.DS_Store
+.idea
+.vscode
+
+# Capacitor / Android nativo: se conserva el proyecto, se ignoran artefactos y secretos
+apps/web/android/.gradle/
+apps/web/android/build/
+apps/web/android/app/build/
+apps/web/android/captures/
+apps/web/android/local.properties
+*.apk
+*.aab
+*.keystore
