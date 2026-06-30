@@ -82,7 +82,17 @@ docs/             Arquitectura y progreso
 
 ## 📸 Capturas
 
-> _Agrega aquí imágenes en `docs/screenshots/` (dashboard, cursos, Roblox, inglés)._
+| Dashboard | Cursos |
+|---|---|
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Cursos](docs/screenshots/cursos.png) |
+
+| Estudio de Roblox | Academia de inglés |
+|---|---|
+| ![Roblox](docs/screenshots/roblox.png) | ![Inglés](docs/screenshots/ingles.png) |
+
+| Empleo & CRS | Logros |
+|---|---|
+| ![Empleo](docs/screenshots/empleo.png) | ![Logros](docs/screenshots/logros.png) |
 
 ## 📄 Licencia
 
