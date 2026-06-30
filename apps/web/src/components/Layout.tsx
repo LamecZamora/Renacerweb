@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { useProfile } from '../lib/storage';
 import Onboarding from './Onboarding';
 import CommandPalette from './CommandPalette';
@@ -124,13 +124,13 @@ export default function Layout() {
 
         <main className="flex-1 p-5 sm:p-6 lg:p-8 max-w-6xl mx-auto w-full">
           <AnimatePresence mode="wait">
-            <motion.div key={location.pathname}
+            <m.div key={location.pathname}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.22, ease: 'easeOut' }}>
               <Outlet />
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         </main>
       </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import type { Profile } from '../lib/storage';
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.07, delayChildren: 0.15 } } };
@@ -30,11 +30,11 @@ export default function Onboarding({ onDone }: { onDone: (p: Profile) => void })
       <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-brand-500/20 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-ember/15 blur-3xl" />
 
-      <motion.div
+      <m.div
         variants={container} initial="hidden" animate="show"
         className="glass-card relative w-full max-w-md rounded-3xl border border-stone-200/70 dark:border-white/10 bg-white/80 dark:bg-white/[0.045] backdrop-blur-xl p-8 shadow-glow"
       >
-        <motion.div variants={item} className="mb-7 flex items-center gap-3">
+        <m.div variants={item} className="mb-7 flex items-center gap-3">
           <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-brand-400 to-brand-600 text-ink-950 font-display text-xl font-extrabold shadow-glow">
             R
           </span>
@@ -42,26 +42,26 @@ export default function Onboarding({ onDone }: { onDone: (p: Profile) => void })
             <p className="font-display text-2xl font-extrabold tracking-tight">RENACER</p>
             <p className="mt-1 text-[10px] uppercase tracking-[0.24em] text-brand-600 dark:text-brand-400">De cero a Vancouver 🍁</p>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.h1 variants={item} className="font-display text-[26px] font-extrabold leading-tight mb-1">
+        <m.h1 variants={item} className="font-display text-[26px] font-extrabold leading-tight mb-1">
           Tu nueva vida<br />empieza hoy.
-        </motion.h1>
-        <motion.p variants={item} className="text-sm text-stone-500 dark:text-stone-400 mb-6">
+        </m.h1>
+        <m.p variants={item} className="text-sm text-stone-500 dark:text-stone-400 mb-6">
           Crea tu cuenta. Tu progreso arranca en blanco y se construye contigo, día a día.
-        </motion.p>
+        </m.p>
 
-        <motion.label variants={item} className="block text-sm mb-3">
+        <m.label variants={item} className="block text-sm mb-3">
           <span className="text-stone-500 dark:text-stone-400 text-xs">¿Cómo te llamas?</span>
           <input value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && submit()} placeholder="Tu nombre" autoFocus className={field} />
-        </motion.label>
+        </m.label>
 
-        <motion.label variants={item} className="block text-sm mb-3">
+        <m.label variants={item} className="block text-sm mb-3">
           <span className="text-stone-500 dark:text-stone-400 text-xs">Tu objetivo principal</span>
           <input value={goal} onChange={(e) => setGoal(e.target.value)} className={field} />
-        </motion.label>
+        </m.label>
 
-        <motion.div variants={item} className="grid grid-cols-2 gap-3 mb-6">
+        <m.div variants={item} className="grid grid-cols-2 gap-3 mb-6">
           <label className="block text-sm">
             <span className="text-stone-500 dark:text-stone-400 text-xs">Peso inicial (kg)</span>
             <input value={startWeight} onChange={(e) => setStartWeight(e.target.value)} type="number" placeholder="Ej. 82" className={field} />
@@ -70,9 +70,9 @@ export default function Onboarding({ onDone }: { onDone: (p: Profile) => void })
             <span className="text-stone-500 dark:text-stone-400 text-xs">Altura (cm)</span>
             <input value={height} onChange={(e) => setHeight(e.target.value)} type="number" placeholder="Ej. 178" className={field} />
           </label>
-        </motion.div>
+        </m.div>
 
-        <motion.button
+        <m.button
           variants={item}
           onClick={submit}
           disabled={!name.trim()}
@@ -80,11 +80,11 @@ export default function Onboarding({ onDone }: { onDone: (p: Profile) => void })
           className="w-full rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 py-3 text-sm font-bold text-ink-950 shadow-glow hover:brightness-105 disabled:opacity-40 disabled:cursor-not-allowed transition"
         >
           Empezar mi camino →
-        </motion.button>
-        <motion.p variants={item} className="mt-3 text-center text-[11px] text-stone-400">
+        </m.button>
+        <m.p variants={item} className="mt-3 text-center text-[11px] text-stone-400">
           100% local y privado · tus datos viven solo en tu dispositivo
-        </motion.p>
-      </motion.div>
+        </m.p>
+      </m.div>
     </div>
   );
 }

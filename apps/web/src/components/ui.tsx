@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export function Card({ children, className = '', style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
   return (
@@ -41,7 +41,7 @@ export function Progress({ value, max, className = '' }: { value: number; max: n
   const pct = Math.max(0, Math.min(100, (value / max) * 100));
   return (
     <div className={`h-2 rounded-full bg-stone-200/80 dark:bg-white/[0.08] overflow-hidden ${className}`}>
-      <motion.div
+      <m.div
         className="h-full rounded-full bg-gradient-to-r from-brand-400 via-ember to-brand-600 shadow-[0_0_12px_-2px_rgba(245,158,11,0.6)]"
         initial={{ width: 0 }}
         animate={{ width: `${pct}%` }}

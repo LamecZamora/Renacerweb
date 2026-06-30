@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { Card, PageHeader, Badge, Stat } from '../components/ui';
 import { useLocalList, uid } from '../lib/storage';
@@ -151,7 +151,7 @@ export default function Journal() {
           ) : (
             <div className="space-y-3 max-h-[560px] overflow-auto pr-1">
               {items.map((e) => (
-                <motion.div key={e.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+                <m.div key={e.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
                   className="rounded-xl border border-stone-200/70 dark:border-white/10 p-3">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xl">{MOODS[e.mood]}</span>
@@ -168,7 +168,7 @@ export default function Journal() {
                   {e.love && <p className="text-xs text-stone-500 dark:text-stone-400"><b>❤️ Relaciones:</b> {e.love}</p>}
                   {e.finances && <p className="text-xs text-stone-500 dark:text-stone-400"><b>💰 Finanzas:</b> {e.finances}</p>}
                   {e.worry && <p className="text-xs text-stone-500 dark:text-stone-400"><b>😟 Me preocupa:</b> {e.worry}</p>}
-                </motion.div>
+                </m.div>
               ))}
             </div>
           )}

@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Card, Stat, Progress, Badge, Skeleton } from '../components/ui';
 import { getProfile, readList, getActiveDays } from '../lib/storage';
 import { computeStats } from '../lib/stats';
@@ -104,7 +104,7 @@ export default function Dashboard() {
         </div>
         <div className="relative mt-4">
           <div className="h-3 rounded-full bg-white/25 overflow-hidden">
-            <motion.div className="h-full rounded-full bg-white" initial={{ width: 0 }}
+            <m.div className="h-full rounded-full bg-white" initial={{ width: 0 }}
               animate={{ width: `${(s.intoLevel / s.xpNeeded) * 100}%` }} transition={{ duration: 1, ease: 'easeOut' }} />
           </div>
           <p className="mt-1 text-xs opacity-80">{s.intoLevel}/{s.xpNeeded} XP hacia el nivel {s.level + 1} · máx {s.xpCap} XP al día</p>

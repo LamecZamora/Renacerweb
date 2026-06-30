@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 
 type BIPEvent = Event & { prompt: () => void; userChoice: Promise<{ outcome: string }> };
 
@@ -38,7 +38,7 @@ export default function InstallPrompt() {
 
   return (
     <AnimatePresence>
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 24 }}
         transition={{ type: 'spring', stiffness: 300, damping: 26 }}
         className="no-print fixed bottom-4 left-4 safe-bottom z-[65] w-[min(92vw,22rem)] rounded-2xl border border-brand-500/30 bg-white/90 dark:bg-ink-950/90 backdrop-blur-md p-4 shadow-2xl"
@@ -62,7 +62,7 @@ export default function InstallPrompt() {
             <button onClick={dismiss} className="rounded-xl border border-stone-200 dark:border-white/10 px-3 py-2 text-sm font-semibold">Ahora no</button>
           </div>
         )}
-      </motion.div>
+      </m.div>
     </AnimatePresence>
   );
 }

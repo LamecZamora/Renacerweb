@@ -621,3 +621,11 @@ Build EXIT 0 (1688 módulos). Verificado: meta diaria con anillo y selector pers
 - Verificado el build de producción con `vite preview`: el HTML carga el entry y los chunks responden 200.
 
 Build EXIT 0 (1688 módulos). Acumulado de optimizaciones: computeStats cacheado, motor de Lua reutilizado, análisis de Roblox con debounce, página de Cursos memoizada, y vendors en chunks aparte.
+
+---
+
+## 2026-06-29 · Optimización con datos: framer-motion + recharts
+- **recharts diferido en Dashboard**: las gráficas (peso + radar) se extraen a `DashboardCharts` y cargan con `React.lazy`/`Suspense`. recharts (~112 kB gzip) sale de la ruta crítica de la landing; las tarjetas y stats pintan al instante.
+- **framer-motion con LazyMotion**: `<LazyMotion features={domAnimation} strict>` en `main.tsx` + migración de los 9 archivos de `motion.*` a `m.*`. El chunk `motion` bajó de **38.24 → 28.41 kB gzip** (−26%). Sin layout-animations ni drag, `domAnimation` basta.
+- Limpieza: borrados `Mentor.tsx` y `lib/api.ts` (código muerto).
+- Verificado: `tsc` EXIT 0, build limpio, 7 rutas con animaciones cargan con 0 errores (modo strict confirma que ningún `motion` quedó suelto).

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { m as M } from 'framer-motion';
 import { Card, PageHeader, Badge } from '../components/ui';
 import { useLocalList, uid, readList } from '../lib/storage';
 import { chatWithCharacter, getKey, setKey, getModel, setModel, MODELS, hasKey, type ChatMsg } from '../lib/llm';
@@ -65,7 +65,7 @@ function Chat({ character, onBack }: { character: Character; onBack: () => void 
 
       <div className="flex-1 overflow-auto p-4 space-y-3">
         {msgs.map((m, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+          <M.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
             className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm whitespace-pre-wrap ${
               m.role === 'user' ? 'bg-brand-600 text-ink-950' : 'bg-stone-200/70 dark:bg-white/10'
@@ -75,7 +75,7 @@ function Chat({ character, onBack }: { character: Character; onBack: () => void 
                 <button onClick={() => speak(m.content, lang)} className="ml-2 text-xs opacity-60 hover:opacity-100" title="Escuchar">🔊</button>
               )}
             </div>
-          </motion.div>
+          </M.div>
         ))}
         {busy && <p className="text-xs text-stone-400">{character.name} está escribiendo…</p>}
         <div ref={endRef} />

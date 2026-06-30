@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import type { Quote } from '../data/quotes';
 
 // Banner motivacional breve (centrado arriba) cuando el usuario falla o se estresa.
@@ -21,7 +21,7 @@ export default function Motivation() {
     <div className="no-print fixed inset-x-0 top-4 z-[75] flex justify-center px-4 pointer-events-none">
       <AnimatePresence>
         {quote && (
-          <motion.div
+          <m.div
             key={quote.text}
             initial={{ opacity: 0, y: -24, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -33,7 +33,7 @@ export default function Motivation() {
             <p className="text-2xl mb-1">💪</p>
             <p className="font-display text-base sm:text-lg font-extrabold leading-snug">“{quote.text}”</p>
             <p className="mt-2 text-xs font-semibold opacity-80">— {quote.source}</p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>
