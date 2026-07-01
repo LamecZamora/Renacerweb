@@ -10,22 +10,38 @@ const STATE_LABEL: Record<SyncState, string> = {
   pending: 'Cambios pendientes', offline: 'Sin conexión', error: 'Error al sincronizar',
 };
 
+// Pistas legibles para los errores de auth más comunes.
+const ERROR_HINT: Record<string, string> = {
+  'auth/operation-not-allowed': 'Activa Google en Firebase → Authentication → Sign-in method.',
+  'auth/configuration-not-found': 'Authentication no está configurado en la consola (activa Google).',
+  'auth/unauthorized-domain': 'Dominio no autorizado: Firebase → Authentication → Settings → Authorized domains.',
+  'auth/popup-blocked': 'El navegador bloqueó la ventana emergente. Permite pop-ups y reintenta.',
+};
+
 export default function CloudSync() {
   const [user, setUser] = useState<SyncUser | null>(null);
   const [state, setState] = useState<SyncState>('idle');
   const [lastSyncedAt, setLast] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [conflict, setConflict] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => onStatus((s) => { setUser(s.user); setState(s.state); setLast(s.lastSyncedAt); }), []);
 
   const handleSignIn = async () => {
     setBusy(true);
+    setError(null);
     try {
       const outcome = await signInWithGoogle();
       if (outcome === 'ask') setConflict(true);
-    } catch {
-      /* popup cancelado/bloqueado: no pasa nada, sigue local */
+    } catch (e: unknown) {
+      const code = (e as { code?: string })?.code ?? '';
+      // Cerrar el popup a propósito no es un error.
+      if (code !== 'auth/popup-closed-by-user' && code !== 'auth/cancelled-popup-request') {
+        console.error('[cloud sync] error de inicio de sesión:', e);
+        const hint = ERROR_HINT[code];
+        setError(hint ? `${code} — ${hint}` : (code || (e as Error)?.message || 'Error al iniciar sesión'));
+      }
     } finally { setBusy(false); }
   };
 
@@ -48,6 +64,9 @@ export default function CloudSync() {
             className="rounded-xl bg-brand-600 px-4 py-2 text-sm font-semibold text-ink-950 disabled:opacity-50">
             {busy ? 'Conectando…' : 'Iniciar sesión con Google'}
           </button>
+          {error && (
+            <p className="mt-3 rounded-lg border border-red-500/40 bg-red-500/10 p-2 text-xs text-red-700 dark:text-red-300 break-words">{error}</p>
+          )}
         </>
       ) : (
         <>
