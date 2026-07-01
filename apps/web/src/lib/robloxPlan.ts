@@ -12,9 +12,11 @@ export function analyzeStory(text: string): GamePlan {
 
   // 0) Tipo de juego detectado (plantilla base)
   let gameType = '';
-  if (/obby|obst[aá]cul|plataform|parkour|saltar/.test(t)) gameType = 'Obby (carrera de obstáculos): enfócate en partes que matan, checkpoints y una meta.';
+  if (/terror|horror|survival|sobreviv|superviv|zombi|infectad|acecha|miedo|pesadilla|apocalip/.test(t)) gameType = 'Survival Horror / Terror: la clave es la TENSIÓN y la vulnerabilidad, no el poder. Recursos escasos (munición y curación contadas), enemigos que acechan, poca luz (linterna con batería), sonido ambiental que avisa el peligro, y guardado/checkpoints solo en zonas seguras. El jugador debe sentirse débil. Empieza por: salud + linterna + un enemigo que persigue por sonido.';
+  else if (/obby|obst[aá]cul|plataform|parkour|saltar/.test(t)) gameType = 'Obby (carrera de obstáculos): enfócate en partes que matan, checkpoints y una meta.';
   else if (/simulador|simulator|farmear|click|mejora|upgrade/.test(t)) gameType = 'Simulator: el jugador repite una acción, gana monedas y compra mejoras. Clave: tienda y leaderstats.';
   else if (/tycoon|fábrica|negocio|construir base/.test(t)) gameType = 'Tycoon: compras partes que generan dinero. Clave: botones de compra y un generador pasivo de monedas.';
+  else if (/disparar|dispara|shooter|pistola|escopeta|rifle|munici[oó]n|balas|francotirador|arma de fuego/.test(t)) gameType = 'Shooter (disparos): el corazón es el sistema de armas — daño, munición, recarga y puntería (mira). Añade variedad de armas y de enemigos, y feedback claro al disparar (sonido, retroceso, impacto).';
   else if (/pelea|combate|fighting|batalla|arena|pvp/.test(t)) gameType = 'Juego de combate: enfócate en daño (TakeDamage), vida y un sistema de equipos o arena.';
   else if (/carrera|racing|veloc|circuito/.test(t)) gameType = 'Carreras: enfócate en vehículos, un circuito con checkpoints y un cronómetro.';
   if (gameType) {
