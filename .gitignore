@@ -13,6 +13,10 @@ dist
 **/.env.*
 **/.pgdata/
 
+# Firebase (caché local de deploy)
+.firebase/
+.firebase.log
+
 # Editor / SO
 .DS_Store
 .idea
