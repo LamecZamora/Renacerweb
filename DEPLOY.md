@@ -28,13 +28,28 @@ En las preguntas: acepta los valores por defecto (Vite detectado, build `npm run
 
 El archivo `apps/web/vercel.json` ya incluye el *rewrite* SPA para que rutas como `/interview` funcionen al recargar.
 
-## Opción B · Netlify
+## Opción B · Firebase Hosting
+
+Ya incluye `apps/web/firebase.json` (rewrite SPA + headers de caché correctos).
+
+```bash
+npm i -g firebase-tools     # una sola vez
+cd renacer/apps/web
+firebase login              # abre el navegador
+firebase use --add          # elige/crea tu proyecto Firebase
+npm run build               # genera dist/
+firebase deploy             # publica → https://TU-PROYECTO.web.app
+```
+
+No necesitas `firebase init` (la config ya está). Si `firebase use --add` no encuentra proyecto, créalo gratis en [console.firebase.google.com](https://console.firebase.google.com) y vuelve a correrlo.
+
+## Opción C · Netlify
 
 1. Importa el repo, base directory `renacer/apps/web`.
 2. Build: `npm run build` · Publish: `dist`.
 3. El `public/_redirects` ya maneja el fallback SPA.
 
-## Opción C · GitHub Pages
+## Opción D · GitHub Pages
 
 Funciona sin cambios si publicas en una **User Page** (`tuusuario.github.io`), porque la app usa rutas en la raíz `/`.
 Para una **Project Page** (`tuusuario.github.io/repo`) necesitarías fijar `base: '/repo/'` en `vite.config.ts` y un `basename` en el router — más enredo; mejor usa Vercel.
