@@ -167,6 +167,31 @@ export default function Roblox() {
           </ol>
         </Card>
 
+        {/* Guía paso a paso PERSONALIZADA (setup + fases según el proyecto) */}
+        <Card className="mb-6">
+          <h3 className="font-bold mb-1">📋 Guía personalizada de tu proyecto</h3>
+          <p className="text-xs text-stone-500 dark:text-stone-400 mb-3">Generada a partir de tu descripción: qué instalar y cómo construir tu juego, fase por fase.</p>
+          <div className="mb-4">
+            <h4 className="font-semibold text-sm mb-1.5">🔧 1. Prepara tu entorno</h4>
+            <ol className="space-y-1 list-decimal list-inside">
+              {plan.guide.setup.map((s, i) => <li key={i} className="text-sm text-stone-600 dark:text-stone-300">{s}</li>)}
+            </ol>
+          </div>
+          <div>
+            <h4 className="font-semibold text-sm mb-1.5">🚧 2. Construye tu juego por fases</h4>
+            <div className="space-y-3">
+              {plan.guide.phases.map((ph, i) => (
+                <div key={i} className="rounded-lg border border-stone-200/70 dark:border-white/10 p-3">
+                  <p className="font-semibold text-sm mb-1">{ph.title}</p>
+                  <ul className="space-y-1 list-disc list-inside">
+                    {ph.steps.map((s, k) => <li key={k} className="text-sm text-stone-600 dark:text-stone-300">{s}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Card>
+
         <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
           <h3 className="font-display text-lg font-bold">🗺️ Paso a paso ({doneCount}/{totalSteps})</h3>
           <button onClick={downloadPlan} className="rounded-lg bg-brand-500/15 text-brand-700 dark:text-brand-400 px-3 py-1.5 text-sm font-semibold">⬇ Descargar plan (.md)</button>

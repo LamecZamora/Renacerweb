@@ -3,7 +3,97 @@
 export type PlanSection = { title: string; steps: string[]; code?: string };
 
 export type Scope = { size: 'pequeño' | 'mediano' | 'extenso'; advice: string; milestones: string[] };
-export type GamePlan = { detected: string[]; sections: PlanSection[]; recommendations: string[]; scope: Scope };
+export type GuidePhase = { title: string; steps: string[] };
+export type Guide = { setup: string[]; phases: GuidePhase[] };
+export type GamePlan = { detected: string[]; sections: PlanSection[]; recommendations: string[]; scope: Scope; guide: Guide };
+
+// Arma una guía paso a paso PERSONALIZADA según el tipo de juego y los elementos detectados.
+function buildGuide(det: Set<string>, kind: string, size: Scope['size']): Guide {
+  const setup: string[] = [
+    'Instala Roblox Studio desde create.roblox.com (botón "Start Creating").',
+    'Instala un editor de código: Visual Studio Code + la extensión "Rojo".',
+    'Instala Git (git-scm.com) para guardar versiones de tu juego.',
+    'Instala Rojo: en PowerShell con Scoop → "scoop install rojo" (o baja el .exe de github.com/rojo-rbx/rojo/releases).',
+    'Instala el plugin de Rojo en Studio con "rojo plugin install" (o desde el Marketplace de Studio).',
+    'En la carpeta del proyecto corre "rojo serve" y en Studio: Plugins → Rojo → Connect → http://localhost:34872.',
+  ];
+
+  const core: Record<string, string> = {
+    horror: 'movimiento en 3ª persona + salud + linterna + UN enemigo que te persigue por sonido.',
+    shooter: 'movimiento + UN arma que dispara con munición y recarga + un enemigo al que dispararle.',
+    obby: 'movimiento + una zona con partes que matan (evento Touched) + un checkpoint.',
+    simulador: 'la acción central (recolectar/clic) que suma monedas en leaderstats.',
+    tycoon: 'un botón que compra una parte que genera monedas pasivamente.',
+    combate: 'movimiento + un ataque que hace daño (TakeDamage) a un enemigo con vida.',
+    carreras: 'un vehículo que se maneja + una meta o checkpoint.',
+  };
+
+  const phases: GuidePhase[] = [{
+    title: 'Fase 1 · Núcleo jugable (tu MVP)',
+    steps: [
+      `Haz un mapa pequeño con Parts simples y logra: ${core[kind] ?? 'el movimiento del jugador + la mecánica central de tu juego.'}`,
+      'Pruébalo con Play (F5) muchas veces. Si ESTO ya engancha, el resto del juego funcionará.',
+    ],
+  }];
+
+  if (kind === 'horror') phases.push({ title: 'Fase · Tensión de survival horror', steps: [
+    'Haz que la munición y la curación sean ESCASAS: el jugador debe sentirse vulnerable.',
+    'Oscurece el mapa (Lighting) para que la linterna sea su única seguridad.',
+    'Suma enemigos que reaccionan al sonido y aparecen en la visión periférica.',
+  ] });
+  if (det.has('Puntos / Vida')) phases.push({ title: 'Fase · Vida y daño', steps: [
+    'Crea salud y daño (Humanoid.Health / TakeDamage) y muéstralos en el HUD.',
+    'Define qué pasa al morir: respawn o volver al último checkpoint.',
+  ] });
+  if (det.has('Enemigos')) phases.push({ title: 'Fase · Enemigos', steps: [
+    'Programa la IA por estados: patrulla → detecta → persigue → ataca.',
+    'Empieza con UN tipo de enemigo; luego agrega variantes (rápido, resistente…).',
+  ] });
+  if (det.has('Jefe / Boss')) phases.push({ title: 'Fase · Jefe (boss)', steps: [
+    'Dale mucha vida y 2 fases: al bajar de cierta vida cambia de comportamiento.',
+    'Avisa sus ataques (señal visual o sonora) para que la pelea sea justa.',
+  ] });
+  if (det.has('Objetos / Items')) phases.push({ title: 'Fase · Objetos recolectables', steps: [
+    'Coloca objetos que el jugador recoge (evento Touched) y súmalos al contador o inventario.',
+  ] });
+  if (det.has('Tienda / Shop')) phases.push({ title: 'Fase · Tienda', steps: [
+    'Haz una GUI con botones de compra; al comprar, resta monedas y entrega el objeto (valida SIEMPRE en el servidor).',
+  ] });
+  if (det.has('Inventario')) phases.push({ title: 'Fase · Inventario', steps: [
+    'Guarda los objetos del jugador en una tabla y muéstralos en una GUI con slots.',
+  ] });
+  if (det.has('Misiones / Quests')) phases.push({ title: 'Fase · Misiones', steps: [
+    'Un sistema de misión: objetivo → progreso → recompensa. Empieza con UNA sola.',
+  ] });
+  if (det.has('Niveles / Mapa')) phases.push({ title: 'Fase · Niveles / mundo', steps: [
+    'Construye tus niveles o zonas uno por uno; conéctalos con teletransporte o carga por zona.',
+  ] });
+  if (det.has('Mercaderes / NPCs')) phases.push({ title: 'Fase · NPCs / mercaderes', steps: [
+    'Crea NPCs con los que se interactúa (ProximityPrompt) para hablar o comerciar.',
+  ] });
+  if (det.has('Diálogos')) phases.push({ title: 'Fase · Diálogos', steps: [
+    'Cajas de diálogo con opciones que se ramifican según lo que elija el jugador.',
+  ] });
+  if (det.has('Guardado de progreso')) phases.push({ title: 'Fase · Guardado (DataStore)', steps: [
+    'Guarda con DataStoreService al salir y carga al entrar; autoguarda cada pocos minutos.',
+  ] });
+  if (det.has('Multijugador / Equipos')) phases.push({ title: 'Fase · Multijugador / equipos', steps: [
+    'Define equipos (Teams) y reglas; sincroniza todo el estado desde el servidor.',
+  ] });
+
+  const closing = size === 'extenso'
+    ? 'Es un proyecto grande: termina cada fase COMPLETA y jugable antes de pasar a la siguiente. No lo hagas todo a la vez.'
+    : 'Termina la Fase 1 jugable antes de sumar el resto. Un núcleo divertido vale más que muchas mecánicas a medias.';
+
+  phases.push({ title: 'Fase final · Pulido y lanzamiento', steps: [
+    'Agrega sonido y partículas para que se sienta vivo; ajusta la dificultad probando con un amigo.',
+    'Optimiza (reutiliza partes, evita bucles pesados cada frame) y prueba en móvil.',
+    'Publica: File → Publish to Roblox → nombre, ícono y descripción; pruébalo y luego hazlo público.',
+    closing,
+  ] });
+
+  return { setup, phases };
+}
 
 export function analyzeStory(text: string): GamePlan {
   const t = (text || '').toLowerCase();
@@ -424,5 +514,13 @@ sonido:Play() -- cuando recoge la moneda`,
       ? 'Proyecto de tamaño medio. Sigue los hitos en orden y prueba seguido.'
       : 'Proyecto pequeño y manejable. ¡Empieza por el MVP y publícalo pronto!';
 
-  return { detected: [...det], sections, recommendations, scope: { size, advice, milestones } };
+  const kind = gameType.startsWith('Survival Horror') ? 'horror'
+    : gameType.startsWith('Obby') ? 'obby'
+    : gameType.startsWith('Simulator') ? 'simulador'
+    : gameType.startsWith('Tycoon') ? 'tycoon'
+    : gameType.startsWith('Shooter') ? 'shooter'
+    : gameType.startsWith('Juego de combate') ? 'combate'
+    : gameType.startsWith('Carreras') ? 'carreras' : '';
+  const guide = buildGuide(det, kind, size);
+  return { detected: [...det], sections, recommendations, scope: { size, advice, milestones }, guide };
 }
