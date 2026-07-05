@@ -71,6 +71,12 @@ body { margin: 0; }
   box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.06) inset, 0 18px 40px -20px rgba(0, 0, 0, 0.55);
 }
 
+/* Tarjeta de curso: al pasar el mouse, un halo con el color propio del curso (var --gc). */
+.course-tile.lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.08) inset, 0 24px 52px -26px var(--gc, rgba(0, 0, 0, 0.5));
+}
+
 /* Foco accesible y consistente en toda la app. */
 :where(button, a, input, select, textarea):focus-visible {
   outline: none;

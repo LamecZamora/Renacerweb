@@ -23,15 +23,15 @@ export function Stat({ label, value, sub }: { label: string; value: string; sub?
 
 export function PageHeader({ title, subtitle, icon }: { title: string; subtitle?: string; icon?: string }) {
   return (
-    <div className="mb-7 flex items-start gap-3.5">
+    <div className="mb-7 flex items-start gap-3.5 border-b border-stone-200/60 dark:border-white/[0.07] pb-5">
       {icon && (
-        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-brand-400/25 to-brand-600/10 ring-1 ring-brand-500/25 text-2xl shadow-sm">
+        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-brand-400/30 to-brand-600/10 ring-1 ring-brand-500/25 text-2xl shadow-[0_6px_16px_-8px_rgba(245,158,11,0.5)]">
           {icon}
         </span>
       )}
       <div className="pt-0.5">
-        <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight">{title}</h1>
-        {subtitle && <p className="mt-1 text-sm text-stone-500 dark:text-stone-400 max-w-2xl">{subtitle}</p>}
+        <h1 className="font-display text-2xl sm:text-[1.7rem] font-extrabold tracking-tight leading-tight text-ink-900 dark:text-white">{title}</h1>
+        {subtitle && <p className="mt-1.5 text-sm leading-relaxed text-stone-500 dark:text-stone-400 max-w-2xl">{subtitle}</p>}
       </div>
     </div>
   );

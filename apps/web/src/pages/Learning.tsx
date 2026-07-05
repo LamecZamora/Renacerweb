@@ -370,28 +370,45 @@ export default function Learning() {
       {/* Selector de cursos */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
         {courseCards.map(({ c, prog, u, complete: isComplete }) => {
+          const levels = c.levels.length;
+          const lessons = c.levels.reduce((s, l) => s + l.exercises.length, 0);
+          const active = courseId === c.id;
           return (
             <button key={c.id} onClick={() => { if (u.ok) { setCourseId(c.id); setOpenLevel(null); } }} disabled={!u.ok}
-              className={`group glass-card text-left rounded-2xl border p-4 ${u.ok ? 'lift' : ''} ${
-                courseId === c.id ? 'ring-2 ring-brand-500 border-transparent' : 'border-stone-200/70 dark:border-white/10'
+              style={{ ['--gc' as string]: `${c.color}55` }}
+              className={`group glass-card course-tile relative overflow-hidden text-left rounded-2xl border p-4 bg-white/70 dark:bg-white/[0.035] backdrop-blur-md ${u.ok ? 'lift' : ''} ${
+                active ? 'ring-2 ring-brand-500 border-transparent'
+                : isComplete ? 'border-emerald-500/40'
+                : 'border-stone-200/70 dark:border-white/10'
               } ${u.ok ? '' : 'opacity-60 cursor-not-allowed'}`}>
-              <div className="flex items-start justify-between gap-2">
-                <span className="grid h-12 w-12 place-items-center rounded-2xl text-2xl ring-1 transition group-hover:scale-105"
-                  style={{ background: `${c.color}1f`, boxShadow: `inset 0 0 0 1px ${c.color}40` }}>{u.ok ? c.icon : '🔒'}</span>
-                <div className="flex items-center gap-1.5">
-                  {isComplete && <span title="Certificado obtenido">🎓</span>}
-                  <span className="font-display text-sm font-extrabold" style={{ color: prog.pct > 0 ? c.color : undefined }}>{prog.pct}%</span>
+              {/* Lavado con el color del curso (más intenso al hover) */}
+              <span aria-hidden className="pointer-events-none absolute inset-0 opacity-70 transition-opacity duration-300 group-hover:opacity-100"
+                style={{ background: `radial-gradient(115% 80% at 0% 0%, ${c.color}16, transparent 58%)` }} />
+              <span className="relative block">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="grid h-12 w-12 place-items-center rounded-2xl text-2xl ring-1 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3"
+                    style={{ background: `${c.color}1f`, boxShadow: `inset 0 0 0 1px ${c.color}45` }}>{u.ok ? c.icon : '🔒'}</span>
+                  {u.ok && (isComplete
+                    ? <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 ring-1 ring-inset ring-emerald-500/30">🎓 Completado</span>
+                    : <span className="font-display text-sm font-extrabold tabular-nums" style={{ color: prog.pct > 0 ? c.color : undefined }}>{prog.pct}%</span>
+                  )}
                 </div>
-              </div>
-              <h4 className="font-bold mt-2.5 truncate">{c.name}</h4>
-              <p className="text-xs text-stone-500 dark:text-stone-400 line-clamp-2 min-h-[2rem]">{c.tagline}</p>
-              {u.ok ? (
-                <div className="mt-2.5 h-1.5 rounded-full bg-stone-200/70 dark:bg-white/10 overflow-hidden">
-                  <div className="h-full rounded-full transition-all duration-700" style={{ width: `${prog.pct}%`, background: c.color }} />
-                </div>
-              ) : (
-                <p className="text-[11px] text-amber-600 mt-2.5">🔒 Requiere: {u.missing.join(', ')}</p>
-              )}
+                <h4 className="font-display font-extrabold tracking-tight mt-3 truncate">{c.name}</h4>
+                <p className="text-xs text-stone-500 dark:text-stone-400 line-clamp-2 min-h-[2rem] mt-0.5">{c.tagline}</p>
+                {u.ok ? (
+                  <>
+                    <div className="mt-3 h-1.5 rounded-full bg-stone-200/70 dark:bg-white/10 overflow-hidden">
+                      <div className="h-full rounded-full transition-all duration-700"
+                        style={{ width: `${prog.pct}%`, background: isComplete ? 'linear-gradient(90deg,#10b981,#34d399)' : `linear-gradient(90deg, ${c.color}, ${c.color}bb)` }} />
+                    </div>
+                    <p className="mt-2 flex items-center gap-1.5 text-[11px] font-medium text-stone-400 dark:text-stone-500">
+                      <span>{levels} niveles</span><span className="opacity-40">·</span><span>{lessons} lecciones</span>
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-[11px] text-amber-600 mt-3">🔒 Requiere: {u.missing.join(', ')}</p>
+                )}
+              </span>
             </button>
           );
         })}
