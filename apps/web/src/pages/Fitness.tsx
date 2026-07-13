@@ -5,6 +5,7 @@ import { useProgress, useLocalList, uid, getProfile } from '../lib/storage';
 import { computeStats } from '../lib/stats';
 import { type DayPlan } from '../data/fitness';
 import { phaseForBMI } from '../data/fitnessPlan';
+import ExerciseLibrary from '../components/ExerciseLibrary';
 
 type Metric = { id: string; date: string; weight?: number; waist?: number; bodyFat?: number; sleep?: number; water?: number };
 
@@ -162,6 +163,8 @@ export default function Fitness() {
       </Card>
 
       <GoalGuide />
+
+      <ExerciseLibrary />
 
       <h3 className="font-display text-lg font-bold mb-3">Tu rutina de la semana</h3>
       <div className="grid lg:grid-cols-2 gap-4 mb-8">
