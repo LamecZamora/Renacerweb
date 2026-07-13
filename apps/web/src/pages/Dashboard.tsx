@@ -9,6 +9,7 @@ import { learningNotes, dailyChallenge, weeklyPlan } from '../lib/learning';
 import { ENGLISH_TOTAL, SPEAKING_TOTAL, ENGLISH_EXAMS } from '../data/english';
 import WeeklyQuests from '../components/WeeklyQuests';
 import DailyGoal from '../components/DailyGoal';
+import CharacterStats from '../components/CharacterStats';
 
 type Metric = { date: string; weight?: number };
 
@@ -69,6 +70,7 @@ export default function Dashboard() {
         <p className={`mt-1 text-sm ${streakAtRisk ? 'text-amber-600 dark:text-amber-500 font-semibold' : 'text-stone-500 dark:text-stone-400'}`}>{subtitle}</p>
       </div>
 
+      <CharacterStats />
       <DailyGoal />
       <WeeklyQuests />
 
