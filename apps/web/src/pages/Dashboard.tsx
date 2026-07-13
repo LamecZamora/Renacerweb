@@ -5,8 +5,7 @@ import { Card, Stat, Progress, Badge, Skeleton } from '../components/ui';
 import { getProfile, readList, getActiveDays } from '../lib/storage';
 import { computeStats } from '../lib/stats';
 import { ACHIEVEMENTS } from '../data/achievements';
-import { learningNotes, dailyChallenge, weeklyPlan } from '../lib/learning';
-import { ENGLISH_TOTAL, SPEAKING_TOTAL, ENGLISH_EXAMS } from '../data/english';
+import { learningNotes, dailyChallenge } from '../lib/learning';
 import WeeklyQuests from '../components/WeeklyQuests';
 import DailyGoal from '../components/DailyGoal';
 import CharacterStats from '../components/CharacterStats';
@@ -15,8 +14,7 @@ type Metric = { date: string; weight?: number };
 
 // recharts se carga diferido: las gráficas entran después del primer render.
 const WeightChart = lazy(() => import('../components/DashboardCharts').then((m) => ({ default: m.WeightChart })));
-const StatsRadar = lazy(() => import('../components/DashboardCharts').then((m) => ({ default: m.StatsRadar })));
-const ChartFallback = () => <Skeleton className="h-[220px] w-full rounded-xl" />;
+const ChartFallback = () => <Skeleton className="h-[180px] w-full rounded-xl" />;
 
 export default function Dashboard() {
   const profile = getProfile();
@@ -30,15 +28,6 @@ export default function Dashboard() {
   const saludo = hour < 12 ? 'Buenos días' : hour < 19 ? 'Buenas tardes' : 'Buenas noches';
   const activeToday = getActiveDays().includes(new Date().toISOString().slice(0, 10));
   const streakAtRisk = s.streak > 0 && !activeToday;
-  const plan = weeklyPlan();
-  const engGrand = ENGLISH_TOTAL + SPEAKING_TOTAL + Object.keys(ENGLISH_EXAMS).length;
-  const engPct = Math.round((s.english / engGrand) * 100);
-  const resumen = [
-    { icon: '🔥', label: 'Racha', value: `${s.streak} ${s.streak === 1 ? 'día' : 'días'}`, tone: streakAtRisk ? 'text-amber-600 dark:text-amber-500' : '' },
-    { icon: '🎯', label: 'Reto de hoy', value: reto ? '1 pendiente' : '✓ al día', tone: '' },
-    { icon: '📚', label: 'Próximo nivel', value: plan[0] ? plan[0].course.name : '—', tone: '' },
-    { icon: '🗣', label: 'Inglés', value: `${engPct}%`, tone: '' },
-  ];
   const subtitle = streakAtRisk
     ? `🔥 Tu racha de ${s.streak} días está en riesgo: completa algo hoy para mantenerla.`
     : reto
@@ -47,15 +36,6 @@ export default function Dashboard() {
   const metrics = readList<Metric>('metrics');
   const weightSeries = [...metrics].filter((m) => m.weight).reverse()
     .map((m) => ({ date: new Date(m.date).toLocaleDateString('es', { day: '2-digit', month: 'short' }), weight: m.weight }));
-
-  const radar = [
-    { stat: 'Fuerza', level: Math.min(20, s.fitness) },
-    { stat: 'Inglés', level: Math.min(20, s.english) },
-    { stat: 'Programación', level: Math.min(20, s.code + Math.floor(s.courseExercises / 2)) },
-    { stat: 'Disciplina', level: Math.min(20, s.journal + s.fitness) },
-    { stat: 'Conocimiento', level: Math.min(20, Math.floor(s.pages / 20) + s.coursesCompleted * 2) },
-    { stat: 'Creatividad', level: Math.min(20, s.tasksDone) },
-  ];
 
   const goals = [
     { title: 'Entrenar · ejercicios de la semana', progress: s.fitness, target: 15 },
@@ -74,24 +54,11 @@ export default function Dashboard() {
       <DailyGoal />
       <WeeklyQuests />
 
-      {/* Mini-resumen del día */}
-      <div className="mb-6 grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {resumen.map((r) => (
-          <div key={r.label} className="flex items-center gap-2 rounded-xl border border-stone-200/70 dark:border-white/10 bg-white/60 dark:bg-white/[0.03] px-3 py-2">
-            <span className="text-xl shrink-0">{r.icon}</span>
-            <div className="min-w-0">
-              <p className="text-[10px] uppercase tracking-wide text-stone-400">{r.label}</p>
-              <p className={`text-sm font-bold truncate ${r.tone}`}>{r.value}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
       <Card className="mb-6 relative overflow-hidden bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 text-white border-0 shadow-glow">
         <div className="absolute -right-10 -top-16 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
         <div className="relative flex items-center justify-between flex-wrap gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] opacity-80">Tu nivel general</p>
+            <p className="text-xs uppercase tracking-[0.18em] opacity-80">Tu nivel de experiencia</p>
             <p className="font-display text-5xl font-extrabold">Nivel {s.level}</p>
             <div className="mt-2 flex gap-2 text-xs">
               <span className="rounded-full bg-white/20 px-2 py-0.5">🔥 {s.streak} días de racha</span>
@@ -162,33 +129,18 @@ export default function Dashboard() {
         </Card>
       )}
 
-      <div className="grid lg:grid-cols-2 gap-4 mb-6">
-        <Card>
-          <h3 className="font-bold mb-3">Evolución del peso</h3>
-          {weightSeries.length < 2 ? (
-            <div className="grid place-items-center h-[220px] text-center">
-              <p className="text-sm text-stone-500">Registra tu peso en <b>Fitness</b> para ver tu evolución aquí.</p>
-            </div>
-          ) : (
-            <Suspense fallback={<ChartFallback />}>
-              <WeightChart data={weightSeries} />
-            </Suspense>
-          )}
-        </Card>
-
-        <Card>
-          <h3 className="font-bold mb-3">Tus estadísticas</h3>
-          {s.points === 0 ? (
-            <div className="grid place-items-center h-[220px] text-center">
-              <p className="text-sm text-stone-500">Completa ejercicios y tus estadísticas crecerán.</p>
-            </div>
-          ) : (
-            <Suspense fallback={<ChartFallback />}>
-              <StatsRadar data={radar} />
-            </Suspense>
-          )}
-        </Card>
-      </div>
+      <Card className="mb-6">
+        <h3 className="font-bold mb-3">Evolución del peso</h3>
+        {weightSeries.length < 2 ? (
+          <div className="grid place-items-center h-[180px] text-center">
+            <p className="text-sm text-stone-500">Registra tu peso en <b>Fitness</b> para ver tu evolución aquí.</p>
+          </div>
+        ) : (
+          <Suspense fallback={<ChartFallback />}>
+            <WeightChart data={weightSeries} />
+          </Suspense>
+        )}
+      </Card>
 
       <div className="grid lg:grid-cols-2 gap-4">
         <Card>
