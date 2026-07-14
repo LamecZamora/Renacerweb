@@ -48,7 +48,7 @@ export default function MuscleAvatar() {
   return (
     <Card className="mb-6">
       <div className="flex items-center justify-between mb-1 flex-wrap gap-2">
-        <div className="flex items-center gap-2"><span>🧍</span><h3 className="font-display font-extrabold tracking-tight">Tu cuerpo hoy</h3></div>
+        <div className="flex items-center gap-2"><span>🗺️</span><h3 className="font-display font-extrabold tracking-tight">Mapa muscular · hoy</h3></div>
         <Badge tone={todayComplete ? 'green' : todayMuscles.length ? 'amber' : 'slate'}>
           {todayMuscles.length === 0 ? 'Descanso' : todayComplete ? '¡Entreno hecho! ✅' : `${todayPlan?.focus ?? 'Hoy'}`}
         </Badge>
