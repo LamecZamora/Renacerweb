@@ -29,7 +29,7 @@ export default function CharacterStats() {
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-7 gap-y-4">
         {stats.map((st, i) => (
           <div key={st.key} className="flex items-center gap-3">
             <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-lg ring-1"
