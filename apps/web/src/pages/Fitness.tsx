@@ -6,6 +6,7 @@ import { computeStats } from '../lib/stats';
 import { type DayPlan } from '../data/fitness';
 import { phaseForBMI } from '../data/fitnessPlan';
 import ExerciseLibrary from '../components/ExerciseLibrary';
+import MuscleAvatar from '../components/MuscleAvatar';
 
 type Metric = { id: string; date: string; weight?: number; waist?: number; bodyFat?: number; sleep?: number; water?: number };
 
@@ -146,6 +147,8 @@ export default function Fitness() {
         <Stat label="IMC" value={stats.imc ? `${stats.imc}` : '—'} sub={stats.imc ? stats.imcLabel : 'añade tu altura'} />
         <Stat label="Día de hoy" value={phase.days.find((d) => d.key === todayKey)?.day ?? '—'} />
       </div>
+
+      <MuscleAvatar />
 
       {/* Rutina automática por fase (IMC) */}
       <Card className="mb-6 border-l-4" style={{ borderLeftColor: phase.color }}>
