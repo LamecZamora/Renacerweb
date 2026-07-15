@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import { Card, PageHeader, Badge } from '../components/ui';
 import { getProfile, saveProfile, exportAccount, importAccount, clearAccount, type Profile } from '../lib/storage';
 import { THEMES, applyTheme, currentThemeId } from '../lib/theme';
-import CloudSync from '../components/CloudSync';
 
 export default function Settings() {
   const current = getProfile();
@@ -55,8 +54,6 @@ export default function Settings() {
   return (
     <>
       <PageHeader title="Ajustes" subtitle="Edita tu perfil y gestiona tus datos." icon="⚙️" />
-
-      <div className="mb-6"><CloudSync /></div>
 
       <Card className="mb-6">
         <div className="flex items-center justify-between mb-3">

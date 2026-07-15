@@ -4,11 +4,9 @@ import { LazyMotion, domAnimation } from 'framer-motion';
 import App from './App';
 import './index.css';
 import { initTheme } from './lib/theme';
-import { initCloud } from './lib/cloud';
 
 // Aplica el color de acento elegido antes del primer render (evita parpadeo).
 initTheme();
-initCloud();
 
 // LazyMotion + componentes `m` cargan solo el set de animaciones que usamos
 // (domAnimation, ~17 kB) en vez del bundle completo de framer-motion (~38 kB gzip).
