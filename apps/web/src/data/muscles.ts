@@ -30,17 +30,17 @@ export const MUSCLES: Record<MuscleId, MuscleInfo> = {
 const KEYWORDS: Record<MuscleId, RegExp> = {
   pecho:      /pecho|banca|apertura|press inclinado/,
   hombros:    /hombro|press militar|elevaci[oó]n(es)? lateral|press de hombro/,
-  biceps:     /b[ií]ceps|curl|domin|jal[oó]n|remo/,
-  triceps:    /tr[ií]ceps|fondos|banca|press inclinado/,
+  biceps:     /b[ií]ceps|curl/,
+  triceps:    /tr[ií]ceps|fondos/,
   antebrazo:  /antebrazo|mu[ñn]eca/,
   abdomen:    /abdomen|crunch|plancha|core|mountain|elevaci[oó]n de piernas|burpee/,
   oblicuos:   /oblicu|lateral.*abdom|abdom.*lateral/,
-  trapecios:  /trapecio|encogimiento|remo/,
+  trapecios:  /trapecio|encogimiento/,
   dorsales:   /espalda|domin|jal[oó]n|remo|torso/,
-  lumbar:     /peso muerto|lumbar|espalda baja/,
+  lumbar:     /lumbar|espalda baja/,
   cuadriceps: /sentadilla|prensa|zancada|pierna|cu[aá]driceps|goblet/,
   femoral:    /peso muerto rumano|femoral|isquio|zancada/,
-  gluteos:    /gl[uú]teo|puente|sentadilla|zancada|peso muerto/,
+  gluteos:    /gl[uú]teo|puente|sentadilla|zancada|peso muerto|hip thrust/,
   pantorrilla:/gemelo|tal[oó]n|pantorrilla/,
 };
 
