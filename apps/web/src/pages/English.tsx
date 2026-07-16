@@ -6,6 +6,7 @@ import { WRITING_PROMPTS } from '../data/writing';
 import ConsejoCard from '../components/ConsejoCard';
 import { ENGLISH_TIPS } from '../data/tips';
 import Flashcards from '../components/Flashcards';
+import Immersion from '../components/Immersion';
 import ListenButton from '../components/ListenButton';
 import { toast } from '../lib/toast';
 import { motivate } from '../lib/motivate';
@@ -355,6 +356,7 @@ export default function English() {
       <ConsejoCard tips={ENGLISH_TIPS} title="Consejo para aprender inglés" />
 
       <Flashcards />
+      <Immersion />
       <Spelling />
       <Listening />
       <WritingPractice />
