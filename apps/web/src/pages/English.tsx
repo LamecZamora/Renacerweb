@@ -414,7 +414,7 @@ export default function English() {
                     <b className="text-brand-700 dark:text-brand-400">📖 Lee · 🔊 Escucha · ✏️ Hazlo</b>
                     <ListenButton text={theory} lang="es-MX" label="Escuchar" />
                   </div>
-                  {theory}
+                  <p className="whitespace-pre-line leading-relaxed">{theory}</p>
                 </div>
               )}
               <div className="space-y-2">
