@@ -265,6 +265,89 @@ export const ENGLISH_LESSONS: Lesson[] = [
       { id: 'c1-ph2-3', q: '"Look into" significa:', options: ['mirar dentro', 'investigar', 'cuidar', 'buscar'], answer: 1, explain: 'Look into = investigar.' },
     ],
   },
+  {
+    id: 'a1-pronouns', title: 'Pronouns & possessives', area: 'Grammar', level: 'A1',
+    quizzes: [
+      { id: 'a1-pro-1', q: '___ name is Carlos.', options: ['My', 'Me', 'I', 'Mine'], answer: 0, explain: 'Posesivo antes de sustantivo → My.' },
+      { id: 'a1-pro-2', q: 'This is my sister. ___ name is Ana.', options: ['His', 'Her', 'She', 'Hers'], answer: 1, explain: 'Posesivo de ella → Her.' },
+      { id: 'a1-pro-3', q: '___ am a developer.', options: ['Me', 'My', 'I', 'Mine'], answer: 2, explain: '"I" es el pronombre sujeto (siempre mayúscula).' },
+      { id: 'a1-pro-4', q: 'The dog moved ___ tail.', options: ['it', 'its', "it's", 'his'], answer: 1, explain: 'Posesivo de "it" → its (sin apóstrofo). "It\'s" = it is.' },
+    ],
+  },
+  {
+    id: 'a1-questions', title: 'Question words', area: 'Grammar', level: 'A1',
+    quizzes: [
+      { id: 'a1-qw-1', q: '___ is your name?', options: ['What', 'Where', 'Who', 'When'], answer: 0, explain: 'Para nombres/cosas → What.' },
+      { id: 'a1-qw-2', q: '___ do you live?', options: ['What', 'Where', 'When', 'Why'], answer: 1, explain: 'Para lugares → Where.' },
+      { id: 'a1-qw-3', q: '___ old are you?', options: ['What', 'How', 'Who', 'Which'], answer: 1, explain: 'Edad → How old…?' },
+      { id: 'a1-qw-4', q: '___ is your birthday?', options: ['Where', 'What', 'When', 'How'], answer: 2, explain: 'Fechas/tiempo → When.' },
+    ],
+  },
+  {
+    id: 'a2-past', title: 'Past Simple', area: 'Grammar', level: 'A2',
+    quizzes: [
+      { id: 'a2-past-1', q: 'I ___ TV last night.', options: ['watch', 'watched', 'watching', 'watches'], answer: 1, explain: 'Pasado regular → verbo + ed.' },
+      { id: 'a2-past-2', q: 'She ___ to school yesterday.', options: ['goed', 'went', 'go', 'gone'], answer: 1, explain: '"Go" es irregular → went.' },
+      { id: 'a2-past-3', q: '___ you see the game?', options: ['Did', 'Do', 'Does', 'Was'], answer: 0, explain: 'Pregunta en pasado → Did + verbo base.' },
+      { id: 'a2-past-4', q: "They didn't ___ the answer.", options: ['knew', 'know', 'known', 'knows'], answer: 1, explain: 'Después de didn\'t va el verbo en base.' },
+    ],
+  },
+  {
+    id: 'a2-comparatives', title: 'Comparatives & superlatives', area: 'Grammar', level: 'A2',
+    quizzes: [
+      { id: 'a2-comp-1', q: 'My house is ___ than yours.', options: ['big', 'bigger', 'biggest', 'more big'], answer: 1, explain: 'Adjetivo corto → -er + than.' },
+      { id: 'a2-comp-2', q: 'This is the ___ day of my life.', options: ['better', 'good', 'best', 'most good'], answer: 2, explain: 'Superlativo irregular de good → best.' },
+      { id: 'a2-comp-3', q: 'English is ___ than I thought.', options: ['easyer', 'more easy', 'easier', 'easiest'], answer: 2, explain: 'Termina en y → -ier: easier.' },
+      { id: 'a2-comp-4', q: 'This phone is ___ expensive than that one.', options: ['more', 'most', 'much', 'very'], answer: 0, explain: 'Adjetivo largo → more + adjetivo + than.' },
+    ],
+  },
+  {
+    id: 'b1-tech', title: 'English for developers 💻', area: 'Vocabulary', level: 'B1',
+    quizzes: [
+      { id: 'b1-tech-1', q: '"Deploy" significa:', options: ['diseñar', 'desplegar a producción', 'depurar', 'descargar'], answer: 1, explain: 'Deploy = publicar/poner en producción.' },
+      { id: 'b1-tech-2', q: '"Bug" es:', options: ['una función nueva', 'un error en el código', 'una prueba', 'un commit'], answer: 1, explain: 'Bug = error/fallo.' },
+      { id: 'b1-tech-3', q: '"Pull request" es:', options: ['una descarga', 'una propuesta de cambios para revisión', 'un despliegue', 'un reporte de error'], answer: 1, explain: 'PR = propones que revisen y fusionen tus cambios.' },
+      { id: 'b1-tech-4', q: '"I\'m debugging the code" significa que estoy:', options: ['escribiendo código nuevo', 'buscando y corrigiendo errores', 'borrando código', 'subiendo el código'], answer: 1, explain: 'Debug = depurar (encontrar y arreglar errores).' },
+      { id: 'b1-tech-5', q: 'En una vacante, "requirements" son:', options: ['los beneficios', 'los requisitos', 'las vacaciones', 'los horarios'], answer: 1, explain: 'Requirements = requisitos del puesto.' },
+    ],
+  },
+  {
+    id: 'b1-travel', title: 'Travel & airport English ✈️', area: 'Vocabulary', level: 'B1',
+    quizzes: [
+      { id: 'b1-trav-1', q: '"Boarding pass" es:', options: ['la maleta', 'el pase de abordar', 'el pasaporte', 'el asiento'], answer: 1, explain: 'Boarding pass = pase de abordar.' },
+      { id: 'b1-trav-2', q: 'En el aeropuerto, "customs" es:', options: ['las costumbres', 'la aduana', 'el mostrador', 'la sala de espera'], answer: 1, explain: 'Customs = aduana (donde revisan tu equipaje).' },
+      { id: 'b1-trav-3', q: '"I\'d like to check in" se usa para:', options: ['pagar la cuenta', 'registrarte (vuelo u hotel)', 'salir del hotel', 'reclamar equipaje'], answer: 1, explain: 'Check in = registrarse a la llegada.' },
+      { id: 'b1-trav-4', q: '"One-way ticket" es un boleto:', options: ['redondo', 'sencillo (solo ida)', 'gratis', 'abierto'], answer: 1, explain: 'One-way = solo ida; round-trip = redondo.' },
+    ],
+  },
+  {
+    id: 'b2-interview', title: 'Job interview English 🎤', area: 'Vocabulary', level: 'B2',
+    quizzes: [
+      { id: 'b2-int-1', q: '"Tell me about yourself" — la mejor respuesta es:', options: ['tu vida completa', 'un resumen profesional de 1-2 min', 'tu edad y estado civil', 'solo tus hobbies'], answer: 1, explain: 'Resumen profesional enfocado al puesto, no biografía.' },
+      { id: 'b2-int-2', q: '"What are your strengths?" pregunta por:', options: ['tus debilidades', 'tus fortalezas', 'tu salario', 'tu horario'], answer: 1, explain: 'Strengths = fortalezas (weaknesses = debilidades).' },
+      { id: 'b2-int-3', q: '"Salary expectations" significa:', options: ['tu historial de pagos', 'cuánto esperas ganar', 'los impuestos', 'los bonos'], answer: 1, explain: 'Cuánto esperas ganar. Investiga el rango antes.' },
+      { id: 'b2-int-4', q: 'Al final: "Do you have any questions?" — lo mejor es:', options: ['decir que no', 'hacer 1-2 preguntas inteligentes', 'preguntar solo el sueldo', 'pedir el trabajo directamente'], answer: 1, explain: 'Preguntar muestra interés genuino en el equipo/proyecto.' },
+      { id: 'b2-int-5', q: '"I\'m a quick learner" significa:', options: ['corro rápido', 'aprendo rápido', 'leo rápido', 'escribo rápido'], answer: 1, explain: 'Frase clave de entrevista: aprendo rápido.' },
+    ],
+  },
+  {
+    id: 'b2-usedto', title: 'Used to / would / be used to', area: 'Grammar', level: 'B2',
+    quizzes: [
+      { id: 'b2-ut-1', q: 'I ___ live in Durango, but now I live in Vancouver.', options: ['used to', 'use to', 'am used to', 'would to'], answer: 0, explain: 'Hábito o estado pasado → used to + verbo base.' },
+      { id: 'b2-ut-2', q: "I'm ___ waking up early now.", options: ['used to', 'use to', 'getting used to', 'would'], answer: 2, explain: 'Acostumbrándote a algo → getting used to + -ing.' },
+      { id: 'b2-ut-3', q: '___ you use to play Roblox?', options: ['Did', 'Do', 'Were', 'Have'], answer: 0, explain: 'Pregunta: Did you use to…? (sin la d final).' },
+      { id: 'b2-ut-4', q: 'When I was a kid, we ___ play outside every day.', options: ['would', 'will', 'use', 'are used to'], answer: 0, explain: '"would" también expresa hábitos repetidos del pasado.' },
+    ],
+  },
+  {
+    id: 'c1-collocations', title: 'Collocations', area: 'Vocabulary', level: 'C1',
+    quizzes: [
+      { id: 'c1-col-1', q: 'Se dice:', options: ['make homework', 'do homework', 'take homework', 'have homework'], answer: 1, explain: 'do homework (hacer tarea). "Make" es crear algo.' },
+      { id: 'c1-col-2', q: '"___ a decision"', options: ['do', 'make', 'take', 'have'], answer: 1, explain: 'make a decision (tomar una decisión).' },
+      { id: 'c1-col-3', q: '"___ attention"', options: ['put', 'make', 'pay', 'take'], answer: 2, explain: 'pay attention (prestar atención).' },
+      { id: 'c1-col-4', q: '"heavy ___" (lluvia fuerte)', options: ['rain', 'water', 'sky', 'wet'], answer: 0, explain: 'heavy rain es la colocación natural (no "strong rain").' },
+    ],
+  },
 ];
 
 export const ENGLISH_TOTAL = ENGLISH_LESSONS.reduce((n, l) => n + l.quizzes.length, 0);
@@ -297,6 +380,15 @@ export const LESSON_THEORY: Record<string, string> = {
   'c1-connectors': 'Los conectores dan cohesión y suben tu nivel al escribir/hablar: however (contraste), therefore (consecuencia), despite/although (concesión), moreover (además).\nEjemplo: "It was hard; however, I finished."\nOjo: "although" + frase (Although it rained…) vs "despite" + sustantivo/-ing (Despite the rain…).',
   'c1-formal': 'Registro formal para trabajo y documentos: purchase (buy), assist (help), request (ask for), require (need), obtain (get).\nEjemplo: "Please find attached my resume."\nOjo: el registro formal evita contracciones (do not en vez de don\'t) y phrasal verbs informales.',
   'c2-nuance': 'En C2 lo que marca la diferencia es el matiz: elegir la palabra exacta y el registro adecuado, y la fluidez natural.\nEjemplo: distinguir "cogent / compelling / persuasive" según el contexto.\nOjo: a este nivel, aprende de nativos reales (inmersión) más que de reglas — el oído fino manda.',
+  'a1-pronouns': 'Pronombres sujeto (I, you, he, she, it, we, they) y posesivos (my, your, his, her, its, our, their). El posesivo va ANTES del sustantivo.\nEjemplo: "My name is Ana. Her dog is small."\nOjo: "its" (posesivo) no lleva apóstrofo; "it\'s" = it is. Error clásico incluso de nativos.',
+  'a1-questions': 'Palabras de pregunta: What (qué), Where (dónde), When (cuándo), Who (quién), Why (por qué), How (cómo).\nEjemplo: "Where do you work?" · "How old are you?"\nOjo: combinaciones útiles: How much (cuánto, incontable), How many (cuántos), How often (con qué frecuencia).',
+  'a2-past': 'Past Simple = acciones terminadas en un tiempo pasado. Regulares: verbo + ed (worked). Irregulares se memorizan (go→went, have→had, see→saw).\nEjemplo: "I visited my family last weekend."\nOjo: en pregunta y negación el verbo vuelve a base: "Did you go?" / "I didn\'t go" (NO "didn\'t went").',
+  'a2-comparatives': 'Comparar: adjetivo corto → -er + than (bigger than); largo → more + adj (more expensive). Superlativo: the + -est / the most.\nEjemplo: "Python is easier than C++, but C++ is the fastest."\nOjo: irregulares: good→better→best, bad→worse→worst, far→further→furthest.',
+  'b1-tech': 'El inglés técnico es TU inglés de trabajo: deploy (desplegar), bug (error), debug (depurar), pull request, merge, requirements, deadline, feature, release.\nEjemplo: "I fixed the bug and opened a pull request."\nOjo: la documentación, Stack Overflow y GitHub están en inglés — leerlos a diario es inmersión gratis para ti como dev.',
+  'b1-travel': 'Inglés de viaje/aeropuerto: boarding pass, customs (aduana), check in/out, luggage (equipaje), gate (puerta), delayed (retrasado), one-way/round-trip.\nEjemplo: "My flight to Vancouver is delayed. Where is gate B12?"\nOjo: te lo van a preguntar EN migración: "What\'s the purpose of your visit?" — practica tu respuesta.',
+  'b2-interview': 'Las preguntas de entrevista se repiten SIEMPRE: Tell me about yourself · strengths/weaknesses · Why should we hire you? · salary expectations · Do you have any questions?\nEjemplo: "I\'m a self-taught developer with 3 years of experience building web apps."\nOjo: usa el método STAR para contar logros (Situation, Task, Action, Result). Practícalas en voz alta en 🎤 Entrevista.',
+  'b2-usedto': '"used to + base" = hábito/estado pasado que ya no es. "be/get used to + -ing" = estar/irse acostumbrando. "would + base" = hábitos repetidos del pasado.\nEjemplo: "I used to play a lot; now I\'m getting used to studying daily."\nOjo: en pregunta/negación pierde la d: "Did you use to…?" / "I didn\'t use to…".',
+  'c1-collocations': 'Las collocations son parejas naturales de palabras: make a decision, do homework, pay attention, heavy rain, fast food (no "quick food").\nEjemplo: "I need to make an appointment and do some research."\nOjo: aprenderlas te hace sonar natural; violarlas delata al no-nativo aunque la gramática sea perfecta.',
 };
 
 // ── Pronunciación (micrófono) ──
@@ -316,6 +408,10 @@ export const SPEAKING: Speak[] = [
   { id: 'sp-b2-3', level: 'B2', phrase: 'Could you tell me more about the role?', es: '¿Podrías contarme más sobre el puesto?' },
   { id: 'sp-c1-2', level: 'C1', phrase: 'I would be glad to walk you through my project', es: 'Con gusto te explico mi proyecto paso a paso' },
   { id: 'sp-c2-1', level: 'C2', phrase: 'Despite the setbacks, we managed to succeed', es: 'A pesar de los contratiempos, logramos tener éxito' },
+  { id: 'sp-a1-4', level: 'A1', phrase: 'I like playing video games', es: 'Me gusta jugar videojuegos' },
+  { id: 'sp-a2-3', level: 'A2', phrase: 'Can you help me, please?', es: '¿Me puedes ayudar, por favor?' },
+  { id: 'sp-b1-4', level: 'B1', phrase: 'I am learning to build web applications', es: 'Estoy aprendiendo a crear aplicaciones web' },
+  { id: 'sp-b2-4', level: 'B2', phrase: 'I am a quick learner and a team player', es: 'Aprendo rápido y trabajo bien en equipo' },
 ];
 export const SPEAKING_TOTAL = SPEAKING.length;
 
@@ -334,6 +430,10 @@ export const LISTENING: Listen[] = [
   { id: 'lis-10', level: 'B1', text: 'The store opens at nine and closes at six, but on Sundays it is closed all day.', q: 'When is the store closed?', options: ['On Mondays', 'At nine', 'On Sundays', 'At six'], answer: 2 },
   { id: 'lis-11', level: 'B2', text: 'Even though I was nervous, the interview went well and they offered me the job.', q: 'What was the result of the interview?', options: ['He was rejected', 'They offered him the job', 'It was canceled', 'He left early'], answer: 1 },
   { id: 'lis-12', level: 'C1', text: 'I would appreciate it if you could send me the report by tomorrow morning at the latest.', q: 'When is the report due?', options: ['Tonight', 'Tomorrow morning', 'Next week', 'In an hour'], answer: 1 },
+  { id: 'lis-13', level: 'B1', text: 'To install the app, download the file, open it, and follow the instructions on the screen.', q: 'What should you do first?', options: ['Open the file', 'Download the file', 'Restart the phone', 'Follow the instructions'], answer: 1 },
+  { id: 'lis-14', level: 'B2', text: 'The standup meeting is every morning at nine thirty. We share what we did yesterday and any blockers.', q: 'What do people share in the standup?', options: ['Salaries', "Yesterday's work and blockers", 'Vacation plans', 'New projects only'], answer: 1 },
+  { id: 'lis-15', level: 'A2', text: 'I am sorry, the doctor is busy right now. Can you come back at four in the afternoon?', q: 'When should you come back?', options: ['At 4 pm', 'At 9 am', 'Tomorrow', 'At noon'], answer: 0 },
+  { id: 'lis-16', level: 'C1', text: 'Had I known about the deadline earlier, I would have organized my week differently.', q: 'What does the speaker regret?', options: ['Missing a party', 'Not knowing the deadline earlier', 'Losing a file', 'Being late today'], answer: 1 },
 ];
 export const LISTENING_TOTAL = LISTENING.length;
 
@@ -437,4 +537,14 @@ export const SPELLING_WORDS: SpellWord[] = [
   { id: 'spw-18', word: 'experience', hint: 'experiencia' },
   { id: 'spw-19', word: 'available', hint: 'disponible' },
   { id: 'spw-20', word: 'successful', hint: 'exitoso/a' },
+  { id: 'spw-21', word: 'developer', hint: 'desarrollador/a' },
+  { id: 'spw-22', word: 'interview', hint: 'entrevista' },
+  { id: 'spw-23', word: 'language', hint: 'idioma / lenguaje' },
+  { id: 'spw-24', word: 'requirements', hint: 'requisitos' },
+  { id: 'spw-25', word: 'opportunity', hint: 'oportunidad' },
+  { id: 'spw-26', word: 'engineer', hint: 'ingeniero/a' },
+  { id: 'spw-27', word: 'algorithm', hint: 'algoritmo' },
+  { id: 'spw-28', word: 'database', hint: 'base de datos' },
+  { id: 'spw-29', word: 'salary', hint: 'salario / sueldo' },
+  { id: 'spw-30', word: 'achievement', hint: 'logro' },
 ];
