@@ -7,6 +7,8 @@ import ConsejoCard from '../components/ConsejoCard';
 import { ENGLISH_TIPS } from '../data/tips';
 import Flashcards from '../components/Flashcards';
 import Immersion from '../components/Immersion';
+import ReadingLab from '../components/ReadingLab';
+import { READINGS } from '../data/reading';
 import ListenButton from '../components/ListenButton';
 import { toast } from '../lib/toast';
 import { motivate } from '../lib/motivate';
@@ -338,7 +340,7 @@ export default function English() {
   const [openLevel, setOpenLevel] = useState(firstOpen);
   const current = stats.find((s) => s.lv === openLevel)!;
   const speakOfLevel = SPEAKING.filter((s) => s.level === openLevel);
-  const grandTotal = ENGLISH_TOTAL + SPEAKING_TOTAL + Object.keys(ENGLISH_EXAMS).length;
+  const grandTotal = ENGLISH_TOTAL + SPEAKING_TOTAL + Object.keys(ENGLISH_EXAMS).length + READINGS.length;
   const levelExam = ENGLISH_EXAMS[openLevel];
 
   return (
@@ -357,6 +359,7 @@ export default function English() {
 
       <Flashcards />
       <Immersion />
+      <ReadingLab />
       <Spelling />
       <Listening />
       <WritingPractice />
